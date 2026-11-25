@@ -2,7 +2,7 @@
 
 Web制作の見積書を、登録不要・ブラウザだけで作る無料ツール。
 直接費（A）に「統合テスト・修正」「並列稼働の調整（B）」「リスク対応（C）」「公開前の検証」を自動で積み上げ、見積もりの抜けを防ぐ。
-入力内容はブラウザの localStorage にだけ保存し、外部には送信しない（`_headers` の CSP で外部通信も禁止）。
+入力内容はブラウザの localStorage にだけ保存し、外部には送信しない。`_headers` の CSP で外部通信を禁止し、例外はアクセス数の計測（Cloudflare Web Analytics）だけ。
 
 ## 構成（ビルド不要の静的サイト）
 
@@ -21,4 +21,6 @@ Web制作の見積書を、登録不要・ブラウザだけで作る無料ツ�
 
 ## 公開
 
-Cloudflare Pages（ビルドコマンドなし、出力ディレクトリはリポジトリのルート）。`master` への push で自動デプロイ。
+https://estimate.k-web-lab.com （Cloudflare Pages。GitHub連携は未設定のため直接アップロード）
+
+    ./deploy.sh    # チェック → 合格したら公開（要 CLAUDFLARE_API_TOKEN）
