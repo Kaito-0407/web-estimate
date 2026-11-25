@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web制作の見積書メーカー｜工数を3層で積んで赤字を防ぐ（無料・登録不要）</title>
+<meta name="description" content="Web制作の見積書を、登録不要・無料でブラウザだけで作成。直接費に「統合テスト・修正」「並列稼働の調整」「リスク対応」を自動で積み上げ、見積もりの抜けと赤字を防ぎます。入力内容は外部に送信されません。">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site">
+  <h1>Web制作の見積書メーカー</h1>
+  <p>工数を「3層」で積んで、赤字の見積もりを防ぐ。無料・登録不要。入力内容はこのブラウザの中だけに保存され、外部には送信されません。</p>
+  <nav><a href="guide/buffer.html">工数見積もりのバッファの目安</a> ／ <a href="guide/items.html">Web制作の見積もり項目</a></nav>
+</header>
+
+<main class="app">
+  <section class="panel inputs" aria-labelledby="h-input">
+    <h2 id="h-input">1. 見積もりの条件</h2>
+    <div class="grid">
+      <label>ひな形<select id="f-preset"></select></label>
+      <label>宛名（会社名）<input id="f-client" autocomplete="organization"></label>
+      <label>件名<input id="f-subject"></label>
+      <label>発行者（氏名・屋号）<input id="f-issuer"></label>
+      <label>インボイス登録番号（任意）<input id="f-invoiceNo" placeholder="T1234567890123"></label>
+      <label>見積日<input id="f-date" type="date"></label>
+      <label>有効期限（日数）<input id="f-validDays" type="number" min="1"></label>
+      <label>人日単価（円・税抜）<input id="f-dayRate" type="number" min="0" step="1000"></label>
+      <label>1人日の時間<input id="f-hoursPerDay" type="number" min="1" step="0.5"></label>
+    </div>
+
+    <h2>2. 作業項目（A 直接費）</h2>
+    <p class="note" id="preset-note"></p>
+    <div class="table-wrap">
+      <table id="items">
+        <thead><tr><th>項目</th><th>数量</th><th>単位</th><th>1単位の工数(h)</th><th>小計</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <button type="button" id="add-item">＋ 項目を追加</button>
+
+    <h2>3. 見落としやすい工数</h2>
+    <div class="grid">
+      <label>統合テスト・修正対応（Aの%）<input id="f-sepRate" type="number" min="0" step="1"><small id="hint-sepRate"></small></label>
+      <label>B 並列稼働の調整費（Aの%）<input id="f-parRate" type="number" min="0" step="1"><small id="hint-parRate"></small></label>
+      <label>C リスク対応費（(A+B)の%）<input id="f-bufRate" type="number" min="0" step="1"><small id="hint-bufRate"></small></label>
+      <label>公開前の検証（日数）<input id="f-preDays" type="number" min="0" step="0.5"></label>
+    </div>
+  </section>
+
+  <section class="panel result" aria-labelledby="h-result">
+    <h2 id="h-result">計算結果</h2>
+    <div id="sum"></div>
+    <div id="warn" class="warn" aria-live="polite"></div>
+    <div class="actions">
+      <label class="check"><input type="checkbox" id="f-showHours"> 見積書に工数の列を出す</label>
+      <button type="button" id="print" class="primary">見積書をPDFで保存（印刷）</button>
+      <button type="button" id="reset" class="ghost">入力をすべて消す</button>
+    </div>
+  </section>
+
+  <section class="panel preview" aria-label="見積書のプレビュー">
+    <h2>見積書のプレビュー</h2>
+    <article id="sheet" class="sheet"></article>
+  </section>
+</main>
+
+<footer class="site">
+  <p>計算の考え方：A 直接費 ＋ 統合テスト・修正（Aの20〜25%）＋ B 並列稼働の調整（Aの15〜20%）＋ C リスク対応（(A+B)の10〜15%）＋ 公開前の検証。BをCで代用しないのがポイントです。</p>
+  <p>このツールの計算結果は目安です。最終的な金額は、案件の条件に合わせてご判断ください。</p>
+</footer>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

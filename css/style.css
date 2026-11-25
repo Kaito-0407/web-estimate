@@ -1,0 +1,94 @@
+:root {
+  --bg: #f6f6f4; --surface: #fff; --ink: #141414; --t2: #52514e; --mu: #898781; --line: #e1e0d9;
+  --accent: #2a78d6; --warn-bg: #fff6e0; --warn: #8a5a00; --ok: #0a7a2f;
+  --a: #2a78d6; --sep: #1baf7a; --b: #eb6834; --c: #6250d6; --pre: #898781;
+  font-family: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); line-height: 1.6; }
+a { color: var(--accent); }
+header.site, footer.site { max-width: 1200px; margin: 0 auto; padding: 20px 16px; }
+header.site h1 { margin: 0 0 4px; font-size: 1.6rem; }
+header.site p { margin: 0 0 6px; color: var(--t2); }
+footer.site { color: var(--t2); font-size: .85rem; }
+.app { max-width: 1200px; margin: 0 auto; padding: 0 16px 24px; display: grid; gap: 16px;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); grid-template-areas: "in res" "pv pv"; }
+.inputs { grid-area: in; } .result { grid-area: res; align-self: start; position: sticky; top: 12px; } .preview { grid-area: pv; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; min-width: 0; }
+.panel h2 { font-size: 1.05rem; margin: 8px 0 12px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px 14px; }
+label { display: flex; flex-direction: column; font-size: .85rem; color: var(--t2); gap: 4px; }
+label small { color: var(--mu); }
+input, select, button { font: inherit; }
+input, select { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: #fff; color: var(--ink); min-width: 0; width: 100%; }
+input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.note { color: var(--t2); font-size: .85rem; margin: -6px 0 8px; }
+.table-wrap { overflow-x: auto; }
+#items { width: 100%; border-collapse: collapse; min-width: 560px; }
+#items th { font-size: .8rem; color: var(--t2); text-align: left; font-weight: 600; padding: 4px; }
+#items td { padding: 4px; }
+#items td:nth-child(1) { width: 44%; } #items input.unit { width: 4.5em; }
+#items td.num { text-align: right; white-space: nowrap; color: var(--t2); }
+button { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 8px 12px; cursor: pointer; }
+button.icon { padding: 4px 10px; color: var(--mu); }
+button.primary { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
+button.ghost { color: var(--t2); }
+#add-item { margin-top: 8px; }
+.layers { display: grid; gap: 6px; }
+.layer { display: flex; justify-content: space-between; align-items: center; border-left: 6px solid; padding: 4px 10px; background: #fafaf8; border-radius: 4px; }
+.layer.a { border-color: var(--a); } .layer.sep { border-color: var(--sep); } .layer.b { border-color: var(--b); } .layer.c { border-color: var(--c); } .layer.pre { border-color: var(--pre); }
+.bar { display: flex; height: 14px; border-radius: 7px; overflow: hidden; margin: 12px 0; background: var(--line); gap: 2px; }
+.bar i { display: block; } .bar .a { background: var(--a); } .bar .sep { background: var(--sep); } .bar .b { background: var(--b); } .bar .c { background: var(--c); } .bar .pre { background: var(--pre); }
+.totals { margin: 0; display: grid; gap: 6px; }
+.totals div { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.totals dt { color: var(--t2); } .totals dd { margin: 0; font-weight: 700; }
+.totals .big { font-size: 1.4rem; }
+.warn ul { margin: 12px 0 0; padding: 10px 12px 10px 28px; background: var(--warn-bg); color: var(--warn); border-radius: 8px; font-size: .88rem; }
+.warn .ok { color: var(--ok); font-weight: 600; margin: 12px 0 0; }
+.actions { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+.check { flex-direction: row; align-items: center; gap: 6px; color: var(--ink); }
+.check input { width: auto; }
+
+/* 見積書 */
+.sheet { background: #fff; color: #000; border: 1px solid var(--line); padding: 32px; max-width: 800px; margin: 0 auto; font-size: 14px; }
+.sheet-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; border-bottom: 2px solid #000; padding-bottom: 8px; }
+.sheet-head h2 { margin: 0; font-size: 26px; letter-spacing: .3em; }
+.sheet .meta { text-align: right; font-size: 13px; }
+.parties { display: flex; justify-content: space-between; gap: 16px; margin: 18px 0; flex-wrap: wrap; }
+.parties p { margin: 2px 0; }
+.parties .to { font-size: 18px; font-weight: 700; border-bottom: 1px solid #000; display: inline-block; padding-right: 2em; }
+.parties .issuer { text-align: right; }
+.grand { font-size: 18px; border: 2px solid #000; padding: 8px 12px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.grand b { font-size: 22px; }
+.lines { width: 100%; border-collapse: collapse; margin-top: 14px; }
+.lines th, .lines td { border: 1px solid #999; padding: 6px 8px; }
+.lines th { background: #f0f0ee; font-weight: 600; text-align: left; }
+.lines .num { text-align: right; white-space: nowrap; }
+.lines tfoot td { font-weight: 600; } .lines tfoot .total td { font-size: 16px; background: #f0f0ee; }
+.remarks { font-size: 12px; color: #333; margin-top: 14px; }
+
+@media (max-width: 860px) {
+  .app { grid-template-columns: minmax(0, 1fr); grid-template-areas: "in" "res" "pv"; }
+  .result { position: static; }
+  .sheet { padding: 16px; font-size: 12px; }
+  .sheet-head h2 { font-size: 20px; }
+}
+
+@media print {
+  @page { size: A4; margin: 14mm; }
+  body { background: #fff; }
+  header.site, footer.site, .inputs, .result, .preview > h2 { display: none !important; }
+  .app { display: block; padding: 0; max-width: none; }
+  .panel.preview { border: 0; padding: 0; }
+  .sheet { border: 0; padding: 0; max-width: none; font-size: 12pt; }
+}
+
+/* 解説ページ */
+.article { max-width: 760px; margin: 0 auto 32px; padding: 24px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.article h1 { font-size: 1.5rem; line-height: 1.4; margin-top: 0; }
+.article h2 { font-size: 1.15rem; margin-top: 28px; }
+.article table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: .92rem; }
+.article th, .article td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; }
+.article th { background: #f6f6f4; }
+.article .cta { display: block; text-align: center; background: var(--accent); color: #fff; padding: 12px; border-radius: 10px; font-weight: 700; text-decoration: none; margin: 24px 0 8px; }
+.article .lead { color: var(--t2); }
