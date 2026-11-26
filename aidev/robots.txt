@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://aidev.k-web-lab.com/sitemap.xml
