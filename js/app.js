@@ -1,5 +1,6 @@
 import { calculate, yen, hrs, RECOMMENDED } from './calc.js';
 import { PRESETS, stateFromPreset } from './presets.js';
+import { renderAffiliate } from './affiliate.js';
 
 const KEY = 'web-estimate:v1';
 const $ = (s, el = document) => el.querySelector(s);
@@ -161,3 +162,4 @@ function renderSheet(r) {
 bindFields();
 renderItems();
 render();
+renderAffiliate(document.getElementById('affiliate'));

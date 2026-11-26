@@ -67,6 +67,11 @@ button.ghost { color: var(--t2); }
 .lines tfoot td { font-weight: 600; } .lines tfoot .total td { font-size: 16px; background: #f0f0ee; }
 .remarks { font-size: 12px; color: #333; margin-top: 14px; }
 
+.affiliate { grid-column: 1 / -1; }
+.affiliate .pr-label { display: inline-block; font-size: .75rem; color: var(--t2); border: 1px solid var(--line); border-radius: 4px; padding: 0 6px; margin: 0; }
+.affiliate h3 { font-size: 1rem; margin: 6px 0; }
+.affiliate ul { margin: 0; padding-left: 1.2em; }
+
 @media (max-width: 860px) {
   .app { grid-template-columns: minmax(0, 1fr); grid-template-areas: "in" "res" "pv"; }
   .result { position: static; }

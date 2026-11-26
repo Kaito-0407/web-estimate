@@ -78,6 +78,7 @@ try {
   await page.screenshot({ path: path.join(OUT, 'maintenance.png'), fullPage: true });
   page.once('dialog', (d) => d.accept());
   await page.selectOption('#f-preset', 'corporate_wp');
+  ok(await page.$eval('#affiliate', (e) => e.hidden), 'アフィリエイト枠：リンク未設定のあいだは非表示');
   await page.fill('#f-parRate', '0');
   ok((await page.textContent('#warn')).includes('並列稼働の調整費が0%'), 'B=0%にすると画面に警告');
   await page.fill('#f-client', '株式会社テスト');
