@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CLAUDE.mdの書き方｜公式の推奨ルールと置き場所、テンプレート</title>
+<meta name="description" content="Claude CodeのCLAUDE.mdを公式ドキュメントに沿って解説。何を書くか、200行未満の目安、具体的に書く理由、置き場所（プロジェクト・個人・CLAUDE.local.md）、.claude/rules/ への分割、@ でのファイル読み込みまで。テンプレート付き。">
+<link rel="canonical" href="https://aidev.k-web-lab.com/guide/claude-md">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header class="site"><p class="brand"><a href="../">AI開発ツール箱</a> ／ <a href="../claude-md">CLAUDE.md作成ツール</a> ／ <a href="../">API料金計算機</a></p></header>
+<main>
+<article class="article">
+<h1>CLAUDE.mdの書き方｜公式の推奨ルールと置き場所、テンプレート</h1>
+<p class="lead">結論：CLAUDE.mdには「毎回守ってほしい事実とルール」だけを、確かめられる形で、200行未満に書きます。迷ったら <code>/init</code> で下書きを作り、Claudeが自分では気づけないことを足していきます。</p>
+
+<h2>CLAUDE.mdとは</h2>
+<p>Claude Codeがセッションの開始時に毎回読み込む指示ファイルです。ビルドやテストのコマンド、書き方の決まり、フォルダ構成など、毎回伝えたいことを書いておくと、同じ説明を繰り返さずに済みます。</p>
+
+<h2>何を書くか</h2>
+<p>公式ドキュメントでは「毎回のセッションで必要な事実」を書くよう勧めています。例として挙げられているのは次のものです。</p>
+<ul>
+<li>ビルドのコマンド</li>
+<li>コードの書き方の決まり</li>
+<li>プロジェクトの構成</li>
+<li>「必ず〜する」というルール</li>
+</ul>
+<p>手順の長い作業や、一部のフォルダでしか使わない決まりは、スキルや <code>.claude/rules/</code> に分けるよう書かれています。</p>
+
+<h2>公式の推奨ルール3つ</h2>
+<h3>1. 具体的に書く</h3>
+<p>公式の例：</p>
+<ul>
+<li>「コードをきちんと整形する」ではなく「インデントは2スペース」</li>
+<li>「変更をテストする」ではなく「コミット前に <code>npm test</code> を実行する」</li>
+<li>「ファイルを整理する」ではなく「APIのハンドラーは <code>src/api/handlers/</code> に置く」</li>
+</ul>
+<h3>2. 200行未満を目安にする</h3>
+<p>長いほど読み込む量が増え、指示が守られにくくなると説明されています。<code>@</code> で別ファイルを読み込んでも、読み込まれた分は同じく数えられるので、短くする効果はありません。</p>
+<h3>3. 見出しと箇条書きで整理し、矛盾をなくす</h3>
+<p>関連する指示を見出しの下に箇条書きでまとめます。2つの指示が食い違うと、Claudeがどちらかを適当に選ぶことがあるため、定期的に見直します。<code>/doctor prompt-audit</code> で点検もできます。</p>
+
+<h2>置き場所</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>場所</th><th>用途</th><th>共有範囲</th></tr></thead>
+<tbody>
+<tr><td><code>./CLAUDE.md</code> または <code>./.claude/CLAUDE.md</code></td><td>プロジェクトの決まり</td><td>チーム（Gitで共有）</td></tr>
+<tr><td><code>./CLAUDE.local.md</code></td><td>自分だけの設定（.gitignoreに追加）</td><td>自分だけ（このプロジェクト）</td></tr>
+<tr><td><code>~/.claude/CLAUDE.md</code></td><td>すべてのプロジェクトで使う自分の好み</td><td>自分だけ（全プロジェクト）</td></tr>
+</tbody></table></div>
+
+<h2>長くなったら .claude/rules/ に分ける</h2>
+<p>テーマごとのファイル（例：<code>testing.md</code>）に分けられます。先頭に <code>paths</code> を書くと、その種類のファイルを扱うときだけ読み込まれます。</p>
+<pre>---
+paths:
+  - "src/api/**/*.ts"
+---
+
+# API のルール
+
+- すべてのエンドポイントで入力をチェックする</pre>
+
+<h2>テンプレート</h2>
+<pre># 予約管理アプリ
+
+Next.js と Supabase で作る社内向けの予約管理アプリ
+
+## コマンド
+- 開発サーバー: `npm run dev`
+- テスト: `npm test`
+- Lint・整形: `npm run lint`
+
+## ディレクトリ
+- src/app/ はページ、src/lib/ は共通処理
+
+## ルール
+- インデントは2スペース
+- コンポーネント名は PascalCase
+
+## してはいけないこと
+- main ブランチへ直接 push しない
+
+## 完了の条件
+- 変更したら `npm test` を実行し、通ってから完了と報告する</pre>
+
+<a class="cta" href="../claude-md">質問に答えて CLAUDE.md を作る（無料）</a>
+<p class="note">出典：<a href="https://code.claude.com/docs/en/memory" rel="noopener" target="_blank">Claude Code公式ドキュメント「memory」</a>（2026-11-26確認）。</p>
+</article>
+</main>
+<footer class="site"><p>© AI開発ツール箱</p></footer>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>生成AI API料金計算機（日本円）｜Claude・GPTの月額をモデル比較</title>
+<meta name="description" content="Claude（Opus・Sonnet・Haiku・Fable）とGPTのAPI料金を、1回の入力・出力トークン数と回数から月額の日本円で計算。キャッシュとバッチの割引にも対応し、全モデルを比較できます。料金は公式ページで確認した値と確認日を表示。">
+<link rel="canonical" href="https://aidev.k-web-lab.com/">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site">
+  <p class="brand"><a href="./">AI開発ツール箱</a> ／ <a href="claude-md">CLAUDE.md作成ツール</a> ／ <a href="guide/claude-api-pricing">Claude APIの料金の目安</a> ／ <a href="guide/claude-md">CLAUDE.mdの書き方</a></p>
+  <h1>生成AI API料金計算機（日本円）</h1>
+  <p>1回あたりの入力・出力の量と回数から、月額を日本円で計算します。料金は公式ページで確認した値です（下に出典と確認日）。入力内容はこのブラウザの中だけに保存されます。</p>
+</header>
+<main class="layout">
+  <section class="panel">
+    <h2>条件</h2>
+    <div class="grid">
+      <label>モデル<select id="f-model"></select></label>
+      <label>1回の入力トークン数<input id="f-inputTokens" type="number" min="0" step="100"></label>
+      <label>1回の出力トークン数<input id="f-outputTokens" type="number" min="0" step="100"></label>
+      <label>入力のうちキャッシュ読み込みの割合（%）<input id="f-cacheShare" type="number" min="0" max="100" step="5"></label>
+      <label>1日の回数<input id="f-perDay" type="number" min="0" step="10"></label>
+      <label>1か月の日数<input id="f-days" type="number" min="0" max="31"></label>
+      <label>為替（1ドル＝何円）<input id="f-usdJpy" type="number" min="1" step="0.01"></label>
+      <label class="check"><input type="checkbox" id="f-batch"> バッチ処理（入力・出力が半額）</label>
+    </div>
+    <p class="note" id="fx-note"></p>
+  </section>
+  <section class="panel result-panel">
+    <h2>月額の目安</h2>
+    <div id="result"></div>
+    <p class="note">キャッシュ書き込みの割増料金、ツール利用料、税は含みません。</p>
+  </section>
+  <section class="panel wide">
+    <h2>同じ条件で全モデルを比較（安い順）</h2>
+    <div class="table-wrap">
+      <table id="compare"><thead><tr><th>モデル</th><th class="num">月額（円）</th><th class="num">月額（ドル）</th><th class="num">入力/出力 単価（$/100万）</th></tr></thead><tbody></tbody></table>
+    </div>
+    <h3>料金の出典</h3>
+    <ul id="sources"></ul>
+  </section>
+</main>
+<footer class="site"><p>計算結果は目安です。実際の請求額は各社の請求画面でご確認ください。料金は毎週、公式ページと照合して更新しています。</p></footer>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CLAUDE.md作成ツール｜Claude Code用の設定ファイルを質問に答えて作る（無料）</title>
+<meta name="description" content="Claude CodeのCLAUDE.mdを、技術スタック・コマンド・ルールを入力するだけで作成。公式の推奨（具体的に書く・200行未満）に沿っているかもチェックします。コピーとダウンロードに対応、入力は外部に送信しません。">
+<link rel="canonical" href="https://aidev.k-web-lab.com/claude-md">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site">
+  <p class="brand"><a href="./">AI開発ツール箱</a> ／ <a href="./">API料金計算機</a> ／ <a href="guide/claude-md">CLAUDE.mdの書き方</a></p>
+  <h1>CLAUDE.md作成ツール</h1>
+  <p>Claude Codeが毎回読み込む CLAUDE.md を、項目に答えて作ります。公式ドキュメントの推奨（具体的に書く、見出しと箇条書きで整理する、1ファイル200行未満）に沿っているかもチェックします。入力はこのブラウザの中だけに保存されます。</p>
+</header>
+<main class="layout">
+  <section class="panel">
+    <h2>入力</h2>
+    <div class="grid one">
+      <label>プロジェクト名<input id="f-name" placeholder="例：社内向け予約サイト"></label>
+      <label>概要（1〜2行）<textarea id="f-overview" rows="2" placeholder="例：Next.jsとSupabaseで作る予約管理アプリ"></textarea></label>
+    </div>
+    <fieldset class="stack"><legend>技術スタック</legend>
+      <label class="check"><input type="checkbox" name="stack" value="TypeScript">TypeScript</label>
+      <label class="check"><input type="checkbox" name="stack" value="JavaScript">JavaScript</label>
+      <label class="check"><input type="checkbox" name="stack" value="Python">Python</label>
+      <label class="check"><input type="checkbox" name="stack" value="Next.js">Next.js</label>
+      <label class="check"><input type="checkbox" name="stack" value="React">React</label>
+      <label class="check"><input type="checkbox" name="stack" value="Astro">Astro</label>
+      <label class="check"><input type="checkbox" name="stack" value="WordPress（PHP）">WordPress（PHP）</label>
+      <label class="check"><input type="checkbox" name="stack" value="Tailwind CSS">Tailwind CSS</label>
+      <label class="check"><input type="checkbox" name="stack" value="Supabase">Supabase</label>
+      <label class="check"><input type="checkbox" name="stack" value="Cloudflare Pages">Cloudflare Pages</label>
+    </fieldset>
+    <div class="grid one">
+      <label>その他の技術（1行に1つ）<textarea id="f-stackOther" rows="2"></textarea></label>
+    </div>
+    <div class="grid">
+      <label>開発サーバーのコマンド<input id="f-cmdDev" placeholder="npm run dev"></label>
+      <label>ビルドのコマンド<input id="f-cmdBuild" placeholder="npm run build"></label>
+      <label>テストのコマンド<input id="f-cmdTest" placeholder="npm test"></label>
+      <label>Lint・整形のコマンド<input id="f-cmdLint" placeholder="npm run lint"></label>
+    </div>
+    <div class="grid one">
+      <label>ディレクトリの説明（1行に1つ）<textarea id="f-dirs" rows="3" placeholder="src/app/ はページ、src/lib/ は共通処理"></textarea></label>
+      <label>守ってほしいルール（1行に1つ。確かめられる形で）<textarea id="f-rules" rows="4" placeholder="インデントは2スペース&#10;コンポーネント名はPascalCase"></textarea></label>
+      <label>してはいけないこと（1行に1つ）<textarea id="f-donts" rows="3" placeholder="main ブランチへ直接 push しない"></textarea></label>
+      <label class="check"><input type="checkbox" id="f-verify"> 「テストが通ってから完了と報告する」を入れる</label>
+    </div>
+  </section>
+  <section class="panel result-panel">
+    <h2>CLAUDE.md <small id="count"></small></h2>
+    <textarea id="out" rows="22" readonly aria-label="作成された CLAUDE.md"></textarea>
+    <div class="actions"><button type="button" id="copy" class="primary">コピー</button><button type="button" id="download">CLAUDE.md をダウンロード</button></div>
+    <div id="tips" class="tips" aria-live="polite"></div>
+    <p class="note">作ったファイルはプロジェクトのルートに置きます。Claude Code の <code>/init</code> でも自動で作れます。詳しくは<a href="guide/claude-md">CLAUDE.mdの書き方</a>。</p>
+  </section>
+</main>
+<footer class="site"><p>このツールは公式ドキュメント（<a href="https://code.claude.com/docs/en/memory" rel="noopener" target="_blank">Claude Code: memory</a>、2026-11-26確認）の推奨に沿って作っています。</p></footer>
+<script type="module" src="js/claudemd-app.js"></script>
+</body>
+</html>
