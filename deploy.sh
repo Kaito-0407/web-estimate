@@ -7,7 +7,15 @@ node tests/check.mjs                      # チェックが通らなければ公
 DIST=$(mktemp -d)
 cp -r index.html css js guide _headers robots.txt "$DIST"/
 cp sitemap.xml "$DIST"/
+cp ./*.txt "$DIST"/   # robots.txt と IndexNow のキーファイル
 export CLOUDFLARE_API_TOKEN="${CLAUDFLARE_API_TOKEN:?}"
 export CLOUDFLARE_ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID:-$(curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/accounts | python3 -c 'import sys,json;print(json.load(sys.stdin)["result"][0]["id"])')}"
 npx --yes wrangler@3 pages deploy "$DIST" --project-name web-estimate --branch master --commit-dirty=true
 rm -rf "$DIST"
+# IndexNow（Bing など）に更新を通知する。Google は非対応（Search Console のサイトマップで拾われる）
+KEYFILE=$(ls | grep -E '^[0-9a-f]{32}\.txt$' | head -1)
+if [ -n "$KEYFILE" ]; then
+  URLS=$(python3 -c "import re;print(','.join('\"%s\"'%u for u in re.findall(r'<loc>(.*?)</loc>',open('sitemap.xml').read())))")
+  curl -s -o /dev/null -w "IndexNow: %{http_code}\n" -X POST https://api.indexnow.org/indexnow -H 'Content-Type: application/json; charset=utf-8' \
+    -d "{\"host\":\"estimate.k-web-lab.com\",\"key\":\"${KEYFILE%.txt}\",\"keyLocation\":\"https://estimate.k-web-lab.com/$KEYFILE\",\"urlList\":[$URLS]}"
+fi
