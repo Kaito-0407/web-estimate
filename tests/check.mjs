@@ -79,6 +79,20 @@ try {
   page.once('dialog', (d) => d.accept());
   await page.selectOption('#f-preset', 'corporate_wp');
   ok(await page.$eval('#affiliate', (e) => e.hidden), 'アフィリエイト枠：リンク未設定のあいだは非表示');
+  // 計算結果（追従する欄）が、どのスクロール位置でも入力欄・プレビューに重ならない
+  let overlapAt = [];
+  const maxY = await page.evaluate(() => document.documentElement.scrollHeight - innerHeight);
+  for (let y = 0; y <= maxY; y += 150) {
+    await page.evaluate((v) => window.scrollTo(0, v), y);
+    const hit = await page.evaluate(() => {
+      const r = document.querySelector('.result').getBoundingClientRect();
+      return ['.inputs', '.preview'].some((sel) => { const o = document.querySelector(sel).getBoundingClientRect();
+        return Math.min(r.right, o.right) - Math.max(r.left, o.left) > 1 && Math.min(r.bottom, o.bottom) - Math.max(r.top, o.top) > 1; });
+    });
+    if (hit) overlapAt.push(y);
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+  ok(overlapAt.length === 0, `計算結果の欄が他の欄に重ならない（重なったスクロール位置：${overlapAt.join(',') || 'なし'}）`);
   await page.fill('#f-parRate', '0');
   ok((await page.textContent('#warn')).includes('並列稼働の調整費が0%'), 'B=0%にすると画面に警告');
   await page.fill('#f-client', '株式会社テスト');
