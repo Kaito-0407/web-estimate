@@ -27,6 +27,18 @@ export const PRESETS = {
     ],
     sepRate: 20, parRate: 15, bufRate: 10, preDays: 1,
   },
+  maintenance: {
+    label: '保守・運用（作業ごとの見積もり）',
+    note: '工数は入力例です（1人日＝8hで換算）。作業ごとの最低単位の目安：IP制限0.5〜1人日、.htaccess修正0.5人日、不要ファイル削除0.5人日、パッチ適用1人日。データベースのアップデートは全画面の確認を工数に含めてください（下の時間は入力例）。',
+    items: [
+      { name: 'IP制限の設定', qty: 1, unit: '件', hours: 4 },
+      { name: '.htaccess修正', qty: 1, unit: '件', hours: 4 },
+      { name: '不要ファイル削除', qty: 1, unit: '件', hours: 4 },
+      { name: 'パッチ適用', qty: 1, unit: '件', hours: 8 },
+      { name: 'データベースのアップデート（全画面の確認を含む）', qty: 1, unit: '式', hours: 16 },
+    ],
+    sepRate: 20, parRate: 15, bufRate: 10, preDays: 0,
+  },
 };
 
 export function stateFromPreset(key, base = {}) {

@@ -29,6 +29,13 @@ const near = (a, b) => Math.abs(a - b) < 1e-6;
     const r2 = calculate(s);
     ok(r2.totalHours > r2.A && r2.total > 0 && r2.warnings.length === 0, `ひな形「${PRESETS[k].label}」：推奨範囲で警告なし（合計${r2.totalHours.toFixed(1)}h）`);
   }
+  {
+    const m = stateFromPreset('maintenance'); const h = (n) => m.items.find((it) => it.name.startsWith(n)).hours;
+    ok(h('IP制限') >= 4 && h('IP制限') <= 8 && h('.htaccess') === 4 && h('不要ファイル') === 4 && h('パッチ') === 8, '保守ひな形：最低単位（IP0.5〜1人日・.htaccess0.5・削除0.5・パッチ1人日）と一致');
+    ok(m.items.some((it) => it.name.includes('全画面の確認')) && PRESETS.maintenance.note.includes('入力例'), '保守ひな形：DB更新に全画面確認を含み、入力例と明記');
+    const rm = calculate({ ...m, dayRate: 50000, hoursPerDay: 8, taxRate: 10 });
+    ok(near(rm.A, 36) && rm.subtotal === rm.lines.reduce((s, l) => s + l.amount, 0), `保守ひな形の検算：A36h（実際${rm.A}）、小計${rm.subtotal}`);
+  }
   const wp = stateFromPreset('corporate_wp'); wp.items[1].hours = 12;
   ok(calculate({ ...wp, dayRate: 1, hoursPerDay: 8 }).warnings.some((w) => w.includes('24〜40時間')), 'WPテンプレ量産が16h未満で警告が出る');
 }
@@ -64,6 +71,13 @@ try {
   ok(/¥[\d,]+/.test(await page.textContent('#sum')) && (await page.textContent('#warn')).includes('推奨範囲'), '初期表示：金額が出て、警告なし');
   const barW = await page.$$eval('#sum .bar i', (els) => els.map((e) => e.getBoundingClientRect().width));
   ok(barW.length === 5 && barW.every((w) => w > 0), `工数の内訳バーが描画される（CSP下で${barW.length}本、幅 ${barW.map((w) => Math.round(w)).join('/')}）`);
+  page.once('dialog', (d) => d.accept());
+  await page.selectOption('#f-preset', 'maintenance');
+  const mOver = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  ok((await page.textContent('#sheet')).includes('パッチ適用') && (await page.textContent('#preset-note')).includes('全画面の確認') && mOver <= 0, `保守ひな形を選ぶと見積書と注記に反映（はみ出し${mOver}px）`);
+  await page.screenshot({ path: path.join(OUT, 'maintenance.png'), fullPage: true });
+  page.once('dialog', (d) => d.accept());
+  await page.selectOption('#f-preset', 'corporate_wp');
   await page.fill('#f-parRate', '0');
   ok((await page.textContent('#warn')).includes('並列稼働の調整費が0%'), 'B=0%にすると画面に警告');
   await page.fill('#f-client', '株式会社テスト');
