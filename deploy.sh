@@ -3,6 +3,7 @@
 # 必要な環境変数: CLAUDFLARE_API_TOKEN（Pages:Edit 権限）
 set -euo pipefail
 cd "$(dirname "$0")"
+python3 tools/note_links.py guide/*.html || true   # 関連する note 記事のリンクを最新にする（失敗しても公開は続ける）
 node tests/check.mjs                      # チェックが通らなければ公開しない
 DIST=$(mktemp -d)
 cp -r index.html css js guide _headers robots.txt "$DIST"/

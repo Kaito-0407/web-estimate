@@ -97,3 +97,5 @@ button.ghost { color: var(--t2); }
 .article th { background: #f6f6f4; }
 .article .cta { display: block; text-align: center; background: var(--accent); color: #fff; padding: 12px; border-radius: 10px; font-weight: 700; text-decoration: none; margin: 24px 0 8px; }
 .article .lead { color: var(--t2); }
+.note-links { margin-top: 28px; padding-top: 8px; border-top: 1px solid var(--line); }
+.note-links .note { margin: 0 0 8px; }
